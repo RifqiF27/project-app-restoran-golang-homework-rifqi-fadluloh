@@ -5,7 +5,6 @@ import (
 	"restaurant-app/model"
 	"restaurant-app/repository"
 	"restaurant-app/service"
-	"restaurant-app/utils"
 )
 
 func AddOrder(db *sql.DB) {
@@ -26,10 +25,6 @@ func AddOrder(db *sql.DB) {
 
 func UpdateStatus(db *sql.DB) {
 	var order model.Order
-	err := utils.ReadBodyJSON("body.json", &order)
-	if err != nil {
-		return 
-	}
 
 	orderRepo := repository.NewOrderRepository(db)
 	userRepo := repository.NewUserRepo(db)
@@ -37,10 +32,31 @@ func UpdateStatus(db *sql.DB) {
 	menuRepo := repository.NewMenuItemRepository(db)
 
 	orderService := service.NewOrderService(orderRepo, discountRepo, userRepo, menuRepo)
-	err = orderService.UpdateStatus(uint16(order.ID), order.Status)
-	if err != nil {
-		return 
-	} 
-	
+	orderService.UpdateStatus(&order)
+
+}
+
+func GetOrderItems(db *sql.DB) {
+
+	orderRepo := repository.NewOrderRepository(db)
+	userRepo := repository.NewUserRepo(db)
+	discountRepo := repository.NewDiscountRepository(db)
+	menuRepo := repository.NewMenuItemRepository(db)
+
+	orderService := service.NewOrderService(orderRepo, discountRepo, userRepo, menuRepo)
+	orderService.GetOrderHistory()
+
+}
+
+func DeleteOrder(db *sql.DB) {
+	var order model.Order
+
+	orderRepo := repository.NewOrderRepository(db)
+	userRepo := repository.NewUserRepo(db)
+	discountRepo := repository.NewDiscountRepository(db)
+	menuRepo := repository.NewMenuItemRepository(db)
+
+	orderService := service.NewOrderService(orderRepo, discountRepo, userRepo, menuRepo)
+	orderService.DeleteOrder(&order)
 	
 }

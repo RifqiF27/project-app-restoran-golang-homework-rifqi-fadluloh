@@ -1,4 +1,4 @@
 {
-  "id": 1,
-  "status": "Canceled"
+  "items": [{ "menu_item_id": 1, "quantity": 3 }],
+  "discount_id": 0
 }

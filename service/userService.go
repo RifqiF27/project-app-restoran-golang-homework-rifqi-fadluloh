@@ -1,9 +1,6 @@
 package service
 
 import (
-	"database/sql"
-	"fmt"
-	// "os"
 	"restaurant-app/model"
 	"restaurant-app/repository"
 	"restaurant-app/utils"
@@ -17,28 +14,12 @@ func NewUserService(repo repository.UserRepository) *UserService {
 	return &UserService{RepoUser: repo}
 }
 
-func GetAllUsers(db *sql.DB) error {
-	userRepo := repository.NewUserRepo(db)
-	var users []model.User
-
-	err := userRepo.GetAll(&users)
-	if err != nil {
-		return fmt.Errorf("gagal mengambil data user: %w", err)
-	}
-
-	for _, user := range users {
-		fmt.Printf("ID: %d, Username: %s, Role: %s\n", user.ID, user.Username, user.Role)
-	}
-
-	return nil
-}
-
 func (us *UserService) LoginService(user model.User) (*model.User, error) {
 	valid := utils.ReadLoggedIn("session.json")
 	if valid {
-		return nil,nil
+		return nil, nil
 	}
-	
+
 	err := utils.ReadBodyJSON("body.json", &user)
 	if err != nil {
 		return nil, nil
@@ -66,7 +47,7 @@ func (us *UserService) LoginService(user model.User) (*model.User, error) {
 
 		err = utils.WriteJSONFile("session.json", sessionData)
 		if err != nil {
-			utils.SendJSONResponse(500, err.Error(),nil)
+			utils.SendJSONResponse(500, err.Error(), nil)
 
 		}
 

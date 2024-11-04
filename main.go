@@ -20,7 +20,7 @@ func main() {
 	for {
 
 		var endpoint string
-		fmt.Print("Masukkan endpoint: ")
+		fmt.Print("Enter endpoint: ")
 		fmt.Scan(&endpoint)
 		utils.ClearScreen()
 		switch endpoint {
@@ -30,21 +30,21 @@ func main() {
 			handler.AddOrder(db)
 		case "update-status":
 			handler.UpdateStatus(db)
-		// case "update-stock":
-		// 	handler.UpdateItemStock(db)
-		// case "add-transaction":
-		// 	handler.AddTransaction(db)
-		// case "get-transaction":
-		// 	handler.GetTransactions(db)
-		// case "add-category":
-		// 	handler.AddCategory(db)
-		// case "add-location":
-		// 	handler.AddLocation(db)
+		case "get-order":
+			handler.GetOrderItems(db)
+		case "add-menu":
+			handler.AddMenu(db)
+		case "delete-order":
+			handler.DeleteOrder(db)
+		case "add-rating":
+			handler.AddRating(db)
+		case "get-rating":
+			handler.GetRatings(db)
 		case "logout":
 			handler.Logout()
 			return
 		default:
-			fmt.Println("Endpoint tidak dikenal")
+			fmt.Println("Endpoint invalid")
 		}
 	}
 }
